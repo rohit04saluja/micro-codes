@@ -17,10 +17,10 @@ def transferTower(n, s, h, t):
 	if(n>0):
 		# transfer n-1 disc from source to intermediate tower
 		transferTower(n-1, s, t, h)
-		###
+		
 		# display stack status
-		# print t1, t2, t3
-		###
+		print (t1, t2, t3)
+		
 		# transfer the last disc from source to destination tower
 		if s:
 			t.append(s.pop())
@@ -32,8 +32,8 @@ def transferTower(n, s, h, t):
 def main():
 	n = int(input("Enter the number of disc on the tower: "))
 	createTower(n, t1)
-	print t1, t2, t3
+	print (t1, t2, t3)
 	transferTower(n, t1, t2, t3)
-	print t1, t2, t3
+	print (t1, t2, t3)
 
 main()
