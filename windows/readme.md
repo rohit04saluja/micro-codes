@@ -1,0 +1,1 @@
+- lock-a-folder contains code and instruction of how to lock a folder in windows
