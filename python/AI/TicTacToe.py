@@ -79,6 +79,44 @@ class TicTacToe:
 					return (i,2-i)
 		return (-1,-1)
 
+	# check if player tieh 'mark' has won
+	def checkWin(self, mark):
+		# for all rows
+		for i in range(0, 3) :
+			count = 0
+			for j in range(0, 3):
+				if (self.__board[i][j] == mark) :
+					count += 1
+			if (count==3) :
+				return True
+
+		# for all columns
+		for i in range(0, 3):
+			count = 0
+			for j in range(0, 3):
+				if (self.__board[j][i] == mark) :
+					count += 1
+			if (count==3) :
+				return True
+
+		# for both diagonals
+		count = 0
+		for i in range(0, 3) :
+			if (self.__board[i][i] == mark) :
+				count += 1
+		if (count == 3) :
+			return True
+
+		count = 0
+		for i in range(0, 3) :
+			if(self.__board[i][2-i] == mark) :
+				count += 1
+		if (count == 3) :
+			return True
+
+		# if no combo found
+		return False
+
 	# function to print the board
 	def printB(self):
 		print("")
@@ -127,6 +165,13 @@ class TicTacToe:
 				else :
 					self.go(self.__make2(), turn%2)
 
+	# check if the given cell is empty
+	def checkEmpty(self, pos) :
+		if(self.__board[pos[0]][pos[1]] == " ") :
+			return True
+		else :
+			return False
+
 # main execution of the program
 # welcome message
 print("Welcom to Tic Tac Toe")
@@ -145,11 +190,25 @@ game = TicTacToe(TicTacToePlayer(p1T, p1M), TicTacToePlayer(p2T, p2M))
 # every turn on thte board
 game.printB()
 for i in range(0, 9):
-	if (game.players[i%2].t == "c") :
+	p = i%2
+	# check who's turn is it
+	if (game.players[p].t == "c") :
 		game.turnComputer(i)
 	else :
-		inStr = input("Enter coordinates of next turn (x,y) : ")
-		inStr = inStr.split(',')
-		coor = [int(inStr[0]), int(inStr[1])]
-		game.go(coor, i%2)
+		# loop untill valid data is inputted
+		while True :
+			inStr = input("Enter coordinates of next turn (x,y) : ")
+			inStr = inStr.split(',')
+			coor = [int(inStr[0]), int(inStr[1])]
+			# check if the cell is empty at the inputed location
+			if (game.checkEmpty(coor)) :
+				game.go(coor, p)
+				break
+			else :
+				print("The position is not free, try again")
+	# print the game board
 	game.printB()
+	# check if the player has won
+	if (game.checkWin(game.players[p].m)) :
+		print("Player "+str(p)+" wins")
+		break;
