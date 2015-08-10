@@ -10,7 +10,7 @@ class ShiftCipher(Cryptography.Cryptography) :
 	# function to encrypt given text
 	def encrypt ( self , text ) :
 		# prepare text for conversion
-		text = self._prepareText( text )
+		text = self._prepareInputText( text )
 		
 		# convert text to int
 		text = self._stringToInt( text )
@@ -20,12 +20,12 @@ class ShiftCipher(Cryptography.Cryptography) :
 			text[i] = ( text[i] + self.__key ) % 26
 		
 		# convert int to text
-		return self._intToString( text )
+		return ''.join( self._intToString( text ) )
 	
 	# function to decrypt given text
 	def decrypt ( self , text ) :
 		# prepare text for conversion
-		text = self._prepareText( text )
+		text = self._prepareInputText( text )
 		
 		# convert text to int
 		text = self._stringToInt( text )
@@ -35,7 +35,7 @@ class ShiftCipher(Cryptography.Cryptography) :
 			text[i] = (text[i] + ( 26 - self.__key ) ) % 26
 		
 		# convert int to text
-		return self._stringToInt( text )
+		return ''.join( self._intToString( text ) )
 	
 	def updateKey (self , key ) :
 		self.__key = key
