@@ -5,7 +5,10 @@ class Graph:
 		self.__graph[label] = {}
 
 	def createLink(self, s, d, t):
-		self.__graph[s].update({d:t})
+		if( d in self.__graph[s] ) :
+			self.__graph[s][d].append(t)
+		else :
+			self.__graph[s].update({d:[t]})
 
 	def printg(self):
 		print self.__graph
