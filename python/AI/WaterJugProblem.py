@@ -7,7 +7,7 @@ class Jug:
 
 	# Method to returnn if jug can hold given volume
 	def canhold(self, vol) :
-		return self.vol+vol<self.cap
+		return self.vol+vol<=self.cap
 
 	# Method to return if the jug is full
 	def full(self) :
@@ -37,30 +37,30 @@ class State:
 		ns = []
 		#1# Fill jug1 to full capacity
 		if(not self.jug1.full()) :
-			ns.append(State(Jug(self.jug1.cap, self.jug1.cap), jug2))
+			ns.append(State(Jug(self.jug1.cap, self.jug1.cap), self.jug2))
 		#2# Fill jug2 to full capacity
 		if(not self.jug2.full()) :
-			ns.append(State(jug1, Jug(self.jug2.cap, self.jug2.cap)))
+			ns.append(State(self.jug1, Jug(self.jug2.cap, self.jug2.cap)))
 		#3# Empty jug1
 		if(not self.jug1.empty()) :
-			ns.append(State(Jug(self.jug1.cap), jug2))
+			ns.append(State(Jug(self.jug1.cap), self.jug2))
 		#4# Empty jug2
 		if(not self.jug2.empty()) :
-			ns.append(State(jug1, Jug(self.jug2.cap)))
+			ns.append(State(self.jug1, Jug(self.jug2.cap)))
 		#5# Transfer from jug1 to jug2
 		if(self.jug2.cap-self.jug2.vol < self.jug1.vol) :
-			ns.append(Jug(self.jug1.cap, self.jug1.vol-(self.jug2.cap-self.jug2.vol)), Jug(self.jug2.cap, self.jug2.cap))
+			ns.append(State(Jug(self.jug1.cap, self.jug1.vol-(self.jug2.cap-self.jug2.vol)), Jug(self.jug2.cap, self.jug2.cap)))
 		elif(self.jug2.cap-self.jug2.vol == self.jug1.vol) :
-			ns.append(Jug(self.jug1.cap), Jug(self.jug2.cap, self.jug2.cap))
+			ns.append(State(Jug(self.jug1.cap), Jug(self.jug2.cap, self.jug2.cap)))
 		else :
-			ns.append(Jug(self.jug1.cap), Jug(self.jug2.cap, self.jug2.vol+self.jug1.vol))
+			ns.append(State(Jug(self.jug1.cap), Jug(self.jug2.cap, self.jug2.vol+self.jug1.vol)))
 		#6# Transfer from jug2 to jug1
 		if(self.jug1.cap-self.jug1.vol < self.jug2.cap) :
-			ns.append(Jug(self.jug1.cap, self.jug1.cap), Jug(self.jug2.cap, self.jug2.vol-(self.ju1.cap-self.jug1.vol)))
+			ns.append(State(Jug(self.jug1.cap, self.jug1.cap), Jug(self.jug2.cap, self.jug2.vol-(self.jug1.cap-self.jug1.vol))))
 		elif(self.jug1.cap-self.jug1.vol < self.jug2.cap) :
-			ns.append(Jug(self.jug1.cap, self.jug1.cap), Jug(self.jug2.cap))
+			ns.append(State(Jug(self.jug1.cap, self.jug1.cap), Jug(self.jug2.cap)))
 		else :
-			ns.append(Jug(self.jug1.cap, self.jug1.vol+self.jug2.vol), Jug(self.jug2.cap))
+			ns.append(State(Jug(self.jug1.cap, self.jug1.vol+self.jug2.vol), Jug(self.jug2.cap)))
 		# Return the list of possible next states
 		return ns
 
@@ -75,29 +75,28 @@ class State:
 class Game:
 	__path = []
 	# Initializing the game
-	def __init__(self, jug1, jug2, vol) :
-		self.__ini = State(jug1, jug2)
-		self.__vol = vol
-		if(jug1.canhold(vol)) :
-			jug1.add(vol)
+	def __init__(self, cap1, cap2, vol) :
+		self.__ini = State(Jug(cap1), Jug(cap2))
+		if(cap1 < vol) :
+			self.__des = State(Jug(cap1, vol), Jug(cap2))
 		else :
-			jug2.add(vol)
-		self.__des = State(jug1, jug2)
+			self.__des = State(Jug(cap1), Jug(cap2, vol))
 
 	# Method to solve the problem
 	def solve(self) :
-		if(self.__path) :
+		if(not self.__path) :
 			# Find path from source and destination state
 			self.__path = self.__findPath(self.__ini, self.__des)
-		else :	
-			return self.__path
+		return self.__path
 
 	def __findPath(self, s, d, path=[]) :
 		# Initialize the path
 		path += [s]
+
 		# Check if souce and destination are same
 		if(s==d) :
-			path += [d]
+			return path
+
 		# Iterate for all possible states
 		for state in s.nextState() :
 			if(state not in path) :
@@ -113,7 +112,11 @@ cap2 = int(input("Enter capacity of jug2: "))
 vol = int(input("Enter the final volume desired: "))
 
 # Initialize the game
-game = Game(Jug(cap1), Jug(cap2), vol)
+game = Game(cap1, cap2, vol)
 path = game.solve()
-for s in path :
-	print(s)
+if(path) :
+	print("Steps followed: ")
+	for s in path :
+		print(s)
+else :
+	print("The solution is not possible")
