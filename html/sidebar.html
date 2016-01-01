@@ -12,7 +12,7 @@
 
 		<!-- custom stylesheet for the sidebar-->
 		<style type="text/css">
-			.sidebar {
+			.sidebar-left, .sidebar-right {
 				display: none;
 			}
 			
@@ -21,7 +21,6 @@
 					position: fixed;
 					top: 51px;
 					bottom: 0;
-					left: 0;
 					z-index: 10;
 					display: block;
 					padding: 20px;
@@ -29,6 +28,14 @@
 					overflow-y: auto;
 					background-color: #fcfcfc;
 					border-right: 1px solid #eee;
+				}
+
+				.sidebar-left {
+					left: 0;
+				}
+
+				.sidebar-right {
+					right: 0;
 				}
 			}
 		</style>
@@ -40,10 +47,13 @@
 		<div class="container-fluid">
 			<div class="row">
 				<!-- sidebar for the page -->
-				<div class="col-sm-3 col-md-2 sidebar"></div>
+				<div class="col-sm-3 col-md-2 sidebar sidebar-left"></div>
 
 				<!-- right of the side bar -->
-				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"></div>
+				<div class="col-sm-6 col-sm-offset-3 col-md-8 col-md-offset-2 main"></div>
+
+				<!-- right sidebar for the page -->
+				<div class="col-sm-3 col-md-2 sidebar sidebar-right"></div>
 			</div>
 		</div>
 	</body>
