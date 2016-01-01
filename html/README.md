@@ -1,0 +1,2 @@
+# sidebar in html with bootstrap
+Description: The bootstrap plugins are eqaually importat as the custom CSS styleing. Feel free to play with the col- tags on bootstrap along with which the sidebar is placed.
