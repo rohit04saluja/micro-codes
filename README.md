@@ -12,3 +12,6 @@ Contains all the html related code snippets.
 
 # javascript
 Contains all the javascript related code snippets.
+
+# c++
+Contains all the c++ related code snippets.
