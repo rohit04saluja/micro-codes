@@ -1,8 +1,8 @@
 /*
  * Here is class of QUEUE using array
  */
-#include <stdio>
-#include <system_error>
+#include <iostream>
+
 namespace mysnippets
 {
   /*
@@ -16,7 +16,7 @@ namespace mysnippets
     int *a;
   protected:
     /* Anchors for queue operations */
-    int front = 0, rear = 0;
+    int front, rear;
   public:
     ArrayQueue (const int size);
     ~ArrayQueue (void);
