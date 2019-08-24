@@ -5,7 +5,10 @@
 #include <system_error>
 namespace mysnippets
 {
-  /* Class for QUEUE using array */
+  /*
+   * @brief
+   * Class for QUEUE using array
+   */
   class ArrayQueue{
   private:
     // TODO: data type obnoxious
@@ -25,5 +28,5 @@ namespace mysnippets
     /* Auxilary useful operation for the queue */
     bool isEmpty (void);
     bool isFull (void);
-  }
+  };
 }
